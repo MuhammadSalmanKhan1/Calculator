@@ -91,6 +91,21 @@ float absoluteValue(float value) {
     return fabs(value);
 }
 
+// Function to calculate logarithm (base 10)
+float logBase10(float value) {
+    return log10(value);
+}
+
+// Function to calculate natural logarithm (base e)
+float logBaseE(float value) {
+    return log(value);
+}
+
+// Function to calculate custom base logarithm
+float logBaseN(float value, float base) {
+    return log(value) / log(base);
+}
+
 // Function to calculate mean
 float mean(float numbers[], int size) {
     float sum = 0;
@@ -148,13 +163,46 @@ float standardDeviation(float numbers[], int size) {
     return sqrt(variance(numbers, size));
 }
 
+// Function to calculate modulus (remainder)
+float modulus(float num1, float num2) {
+    return fmod(num1, num2);
+}
+
+// Function to calculate percentage
+float percentage(float base, float percent) {
+    return (percent / 100) * base;
+}
+
+// Function to calculate greatest common divisor (GCD)
+int gcd(int num1, int num2) {
+    if (num2 == 0)
+        return num1;
+    else
+        return gcd(num2, num1 % num2);
+}
+
+// Function to calculate least common multiple (LCM)
+int lcm(int num1, int num2) {
+    return (num1 * num2) / gcd(num1, num2);
+}
+
+// Function to calculate floor (round down)
+float floorValue(float value) {
+    return floor(value);
+}
+
+// Function to calculate ceiling (round up)
+float ceilValue(float value) {
+    return ceil(value);
+}
+
 int main() {
-    float num1, num2, result, angle, value, exponent, nth_root_value, base;
-    int n, size;
+    float num1, num2, result, angle, value, exponent, nth_root_value, base, percent;
+    int n, size, gcd_result, lcm_result;
     char operator;
 
-    // Input two numbers, an angle/value, or a number for statistical operation and operator
-    printf("Enter the size of the array for statistical operations: ");
+    // Input two numbers, an angle/value, or a number for mathematical operation and operator
+    printf("Enter the size of the array for mathematical operations: ");
     scanf("%d", &size);
 
     float numbers[size];
@@ -164,17 +212,19 @@ int main() {
         scanf("%f", &numbers[i]);
     }
 
-    printf("Enter operator (+, -, *, /, sin, cos, tan, asin, acos, atan, ^, sqrt, cbrt, nthrt, !, |, log10, ln, logn, mean, median, mode, variance, sd): ");
+    printf("Enter operator (+, -, *, /, sin, cos, tan, asin, acos, atan, ^, sqrt, cbrt, nthrt, !, |, log10, ln, logn, mean, median, mode, variance, sd, %%, %, gcd, lcm, floor, ceil): ");
     scanf(" %c", &operator); // Note the space before %c to consume the newline character
 
-    // Check if the operator is for trigonometric functions, logarithmic operations, or statistical operations
+    // Check if the operator is for trigonometric functions, logarithmic operations, statistical operations, or mathematical operations
     if (operator != 'sin' && operator != 'cos' && operator != 'tan' &&
         operator != 'asin' && operator != 'acos' && operator != 'atan' &&
         operator != '^' && operator != 'sqrt' && operator != 'cbrt' &&
         operator != 'nthrt' && operator != '!' && operator != '|' &&
         operator != 'log10' && operator != 'ln' && operator != 'logn' &&
         operator != 'mean' && operator != 'median' && operator != 'mode' &&
-        operator != 'variance' && operator != 'sd') {
+        operator != 'variance' && operator != 'sd' && operator != '%' &&
+        operator != 'gcd' && operator != 'lcm' && operator != 'floor' &&
+        operator != 'ceil') {
         printf("Enter second number: ");
         scanf("%f", &num2);
     }
@@ -256,6 +306,25 @@ int main() {
             break;
         case 'sd':
             result = standardDeviation(numbers, size);
+            break;
+        case '%':
+            printf("Enter the percentage value: ");
+            scanf("%f", &percent);
+            result = percentage(num1, percent);
+            break;
+        case 'gcd':
+            gcd_result = gcd((int)num1, (int)num2);
+            printf("GCD of %d and %d is %d\n", (int)num1, (int)num2, gcd_result);
+            return 0; // Exit after printing GCD
+        case 'lcm':
+            lcm_result = lcm((int)num1, (int)num2);
+            printf("LCM of %d and %d is %d\n", (int)num1, (int)num2, lcm_result);
+            return 0; // Exit after printing LCM
+        case 'floor':
+            result = floorValue(num1);
+            break;
+        case 'ceil':
+            result = ceilValue(num1);
             break;
         default:
             printf("Error: Invalid operator.\n");
