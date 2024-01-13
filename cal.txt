@@ -91,39 +91,90 @@ float absoluteValue(float value) {
     return fabs(value);
 }
 
-// Function to calculate logarithm (base 10)
-float logBase10(float value) {
-    return log10(value);
+// Function to calculate mean
+float mean(float numbers[], int size) {
+    float sum = 0;
+    for (int i = 0; i < size; ++i) {
+        sum += numbers[i];
+    }
+    return sum / size;
 }
 
-// Function to calculate natural logarithm (base e)
-float logBaseE(float value) {
-    return log(value);
+// Function to calculate median
+float median(float numbers[], int size) {
+    int middle = size / 2;
+    if (size % 2 == 0) {
+        return (numbers[middle - 1] + numbers[middle]) / 2.0;
+    } else {
+        return numbers[middle];
+    }
 }
 
-// Function to calculate custom base logarithm
-float logBaseN(float value, float base) {
-    return log(value) / log(base);
+// Function to calculate mode
+float mode(float numbers[], int size) {
+    // Mode is the most frequently occurring number
+    // This function returns the first mode found in the array
+    int maxCount = 0, mode = numbers[0], count;
+
+    for (int i = 0; i < size; ++i) {
+        count = 0;
+        for (int j = 0; j < size; ++j) {
+            if (numbers[j] == numbers[i])
+                ++count;
+        }
+        if (count > maxCount) {
+            maxCount = count;
+            mode = numbers[i];
+        }
+    }
+
+    return mode;
+}
+
+// Function to calculate variance
+float variance(float numbers[], int size) {
+    float meanValue = mean(numbers, size);
+    float sumSquaredDiffs = 0;
+
+    for (int i = 0; i < size; ++i) {
+        sumSquaredDiffs += pow(numbers[i] - meanValue, 2);
+    }
+
+    return sumSquaredDiffs / size;
+}
+
+// Function to calculate standard deviation
+float standardDeviation(float numbers[], int size) {
+    return sqrt(variance(numbers, size));
 }
 
 int main() {
     float num1, num2, result, angle, value, exponent, nth_root_value, base;
-    int n;
+    int n, size;
     char operator;
 
-    // Input two numbers, an angle/value, or a number for logarithmic operation and operator
-    printf("Enter first number, angle/value, or logarithmic operation number: ");
-    scanf("%f", &num1);
+    // Input two numbers, an angle/value, or a number for statistical operation and operator
+    printf("Enter the size of the array for statistical operations: ");
+    scanf("%d", &size);
 
-    printf("Enter operator (+, -, *, /, sin, cos, tan, asin, acos, atan, ^, sqrt, cbrt, nthrt, !, |, log10, ln, logn): ");
+    float numbers[size];
+
+    printf("Enter %d numbers: ", size);
+    for (int i = 0; i < size; ++i) {
+        scanf("%f", &numbers[i]);
+    }
+
+    printf("Enter operator (+, -, *, /, sin, cos, tan, asin, acos, atan, ^, sqrt, cbrt, nthrt, !, |, log10, ln, logn, mean, median, mode, variance, sd): ");
     scanf(" %c", &operator); // Note the space before %c to consume the newline character
 
-    // Check if the operator is for trigonometric functions or logarithmic operations
+    // Check if the operator is for trigonometric functions, logarithmic operations, or statistical operations
     if (operator != 'sin' && operator != 'cos' && operator != 'tan' &&
         operator != 'asin' && operator != 'acos' && operator != 'atan' &&
         operator != '^' && operator != 'sqrt' && operator != 'cbrt' &&
         operator != 'nthrt' && operator != '!' && operator != '|' &&
-        operator != 'log10' && operator != 'ln' && operator != 'logn') {
+        operator != 'log10' && operator != 'ln' && operator != 'logn' &&
+        operator != 'mean' && operator != 'median' && operator != 'mode' &&
+        operator != 'variance' && operator != 'sd') {
         printf("Enter second number: ");
         scanf("%f", &num2);
     }
@@ -190,6 +241,21 @@ int main() {
             printf("Enter the base for logarithm: ");
             scanf("%f", &base);
             result = logBaseN(num1, base);
+            break;
+        case 'mean':
+            result = mean(numbers, size);
+            break;
+        case 'median':
+            result = median(numbers, size);
+            break;
+        case 'mode':
+            result = mode(numbers, size);
+            break;
+        case 'variance':
+            result = variance(numbers, size);
+            break;
+        case 'sd':
+            result = standardDeviation(numbers, size);
             break;
         default:
             printf("Error: Invalid operator.\n");
