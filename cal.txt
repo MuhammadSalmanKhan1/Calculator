@@ -6,6 +6,54 @@ float add(float num1, float num2) {
     return num1 + num2;
 }
 
+// Structure to represent a complex number
+typedef struct {
+    float real;
+    float imag;
+} Complex;
+
+
+// Function to add two complex numbers
+Complex addComplex(Complex num1, Complex num2) {
+    Complex result;
+    result.real = num1.real + num2.real;
+    result.imag = num1.imag + num2.imag;
+    return result;
+}
+
+// Function to subtract two complex numbers
+Complex subtractComplex(Complex num1, Complex num2) {
+    Complex result;
+    result.real = num1.real - num2.real;
+    result.imag = num1.imag - num2.imag;
+    return result;
+}
+
+// Function to multiply two complex numbers
+Complex multiplyComplex(Complex num1, Complex num2) {
+    Complex result;
+    result.real = num1.real * num2.real - num1.imag * num2.imag;
+    result.imag = num1.real * num2.imag + num1.imag * num2.real;
+    return result;
+}
+
+// Function to find the conjugate of a complex number
+Complex conjugateComplex(Complex num) {
+    Complex conjugate;
+    conjugate.real = num.real;
+    conjugate.imag = -num.imag;
+    return conjugate;
+}
+// Function to divide two complex numbers
+Complex divideComplex(Complex num1, Complex num2) {
+    Complex result;
+    float denominator = num2.real * num2.real + num2.imag * num2.imag;
+
+    result.real = (num1.real * num2.real + num1.imag * num2.imag) / denominator;
+    result.imag = (num1.imag * num2.real - num1.real * num2.imag) / denominator;
+
+    return result;
+}
 // Function to subtract two numbers
 float subtract(float num1, float num2) {
     return num1 - num2;
@@ -231,7 +279,22 @@ int main() {
 
     // Perform calculation based on the operator
     switch (operator) {
-        case '+':
+    case '+':
+            result = addComplex(num1, num2);
+            break;
+case '-':
+            result = subtractComplex(num1, num2);
+            break;
+        case '*':
+            result = multiplyComplex(num1, num2);
+            break;
+        case '/':
+            result = divideComplex(num1, num2);
+            break;
+        case '~':
+            result = conjugateComplex(num1);
+            break;
+case '+':
             result = add(num1, num2);
             break;
         case '-':
@@ -329,6 +392,25 @@ int main() {
         default:
             printf("Error: Invalid operator.\n");
             return 1; // You can modify this return value as needed
+
+case '+':
+            result = addComplex(num1, num2);
+            break;
+        case '-':
+            result = subtractComplex(num1, num2);
+            break;
+        case '*':
+            result = multiplyComplex(num1, num2);
+            break;
+        case '/':
+            result = divideComplex(num1, num2);
+            break;
+        case '~':
+            result = conjugateComplex(num1);
+            break;
+        default:
+            printf("Error: Invalid operator.\n");
+            return 1;
     }
 
     // Display the result
